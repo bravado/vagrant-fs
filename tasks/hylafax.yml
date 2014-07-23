@@ -1,0 +1,12 @@
+---
+
+- name: Hylafax | Installing hylafax packages and dependencies
+	sudo: yes
+	action: apt pkg={{item}} state=latest install_recommends=yes
+	with_items:
+		- hylafax-server 
+
+  - name: Freeswitch | Run Freeswitch daemon
+  	sudo: yes 
+	service: name=freeswitch state=restarted
+	tags: freeswitch

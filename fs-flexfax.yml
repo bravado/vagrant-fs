@@ -1,0 +1,9 @@
+---
+- hosts: all
+  user: vagrant
+
+  tasks:
+    - include: tasks/common.yml
+    - include: tasks/freeswitch.yml
+    - include: tasks/hylafax.yml
+    #- include: tasks/gofaxip.yml

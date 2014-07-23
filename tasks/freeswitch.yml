@@ -1,0 +1,47 @@
+---
+
+- name: ensure required packages are installed 
+  sudo: yes
+  apt: name={{item}} state=latest update_cache=yes
+  with_items:
+    - python-apt
+  tags: freeswitch
+
+- name: Freeswitch Soft Switch | Adding Repository 
+  sudo: yes
+  apt_repository: repo='deb http://files.freeswitch.org/repo/deb/debian/ wheezy main' state=present
+  tags: freeswitch
+
+- name: Freeswitch Repository Key | Adding Key
+  sudo: yes
+  shell: curl http://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub | apt-key add -
+  tags: freeswitch
+
+- name: Update APT package cache
+  sudo: yes
+  action: apt update_cache=yes
+  tags: freeswitch
+
+- name: Freeswitch | Installing freeswitch packages and dependencies
+  sudo: yes
+  action: apt pkg={{item}} state=latest install_recommends=yes
+  with_items:
+    - freeswitch
+    - freeswitch-mod-commands
+    - freeswitch-mod-dptools 
+    - freeswitch-mod-event-socket 
+    - freeswitch-mod-logfile 
+    - freeswitch-mod-sofia 
+    - freeswitch-mod-spandsp 
+    - freeswitch-mod-timerfd 
+    - freeswitch-mod-tone-stream 
+    - freeswitch-mod-db 
+    - freeswitch-sysvinit
+
+- name: Freeswitch | Run Freeswitch daemon
+  sudo: yes
+  service: name=freeswitch state=restarted
+  tags: freeswitch
+
+
+

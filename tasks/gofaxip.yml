@@ -1,0 +1,41 @@
+---
+
+- name: Supervisor | Install supervisor process management system
+  sudo: yes
+  action: apt pkg=supervisor 
+
+- name: Go Lang | Install go lang 
+  sudo: yes
+  action: apt pkg=golang state=latest install_recommends=yes
+
+- name: Git Clone gofaxip | Git clone gofaxip repository
+  sudo: yes
+  git: repo=https://github.com/gonicus/gofaxip.git dest=/opt/gofaxip
+
+- name: Install gofaxip | Install gofaxip 
+  sudo: yes 
+  shell: cd /opt/gofaxip/; make 
+
+- name: Setup gofaxip freeswitch | Setup gofaxip freeswitch
+  sudo: yes
+  shell: cp /opt/gofaxip/bin/* /usr/local/sbin/
+
+- name: Setup gofaxid config | Setup gofaxid config
+  sudo: yes
+  shell: cp -r /opt/gofaxip/config/freeswitch /etc/freeswitch/
+
+- name: Setup gofaxid config | Setup gofaxid config
+  sudo: yes
+  shell: cp -r /opt/gofaxip/config/freeswitch /etc/freeswitch/; cp /opt/gofaxip/config/default/freeswitch /etc/default/
+
+- name: Setup gofaxid config | Setup gofaxid config
+  sudo: yes
+  shell: cp /opt/gofaxip/config/default/freeswitch /etc/default/
+
+- name: Setup gofaxid config | Setup gofaxid config
+  sudo: yes
+  shell: cp /opt/gofaxip/config/gofax.conf /etc/
+
+
+
+
