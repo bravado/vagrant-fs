@@ -19,3 +19,5 @@ TODO
 - how to update configuration
 - how to test sip call
 
+=======
+Vagrant, Ansible and Freeswitch configuration setup.
